@@ -626,7 +626,6 @@
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/scopedcss/bundle/Wepshop.styles.css
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/scopedcss/projectbundle/Wepshop.bundle.scp.css
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Wepshop.RazorTargetAssemblyInfo.cache
-/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Wepshop.csproj.CopyComplete
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Wepshop.dll
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/ref/Wepshop.dll
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Wepshop.pdb

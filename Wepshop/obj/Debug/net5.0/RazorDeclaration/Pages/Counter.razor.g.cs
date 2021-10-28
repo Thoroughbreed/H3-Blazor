@@ -82,6 +82,13 @@ using Wepshop.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 2 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Counter.razor"
+using System.Xml;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/counter")]
     public partial class Counter : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -91,15 +98,70 @@ using Wepshop.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 9 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Counter.razor"
+#line 14 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Counter.razor"
        
-    private int currentCount = 0;
+    private string _calculateResult;
+    private string _inputA;
+    private string _inputB;
+    private decimal _result;
 
-    private void IncrementCount()
+    private void Calculate(char c)
     {
-        currentCount++;
+        decimal A;
+        decimal B;
+        try
+        {
+            if (c  == '+')
+            {
+                _calculateResult = _inputA + _inputB;
+            }
+            else
+            {
+                A = Convert.ToDecimal(_inputA);
+                B = Convert.ToDecimal(_inputB);
+                
+                switch (@c)
+                {
+                    case '+':
+                        _result = A + B;
+                        _calculateResult = _result.ToString();
+                        break;
+                    case '-':
+                        _result = A - B;
+                        _calculateResult = _result.ToString();
+                        break;
+                    case '*':
+                        _result = A * B;
+                        _calculateResult = _result.ToString();
+                        break;
+                    case '/':
+                        if (B == 0)
+                        {
+                            _calculateResult = "You can't divide by zero you dumb fuck ...";
+                            break;;
+                        }
+                        _result = A / B;
+                        _calculateResult = _result.ToString();
+                        break;
+                    case 'M':
+                        if (B == 0)
+                        {
+                            _calculateResult = "You can't divide by zero you dumb fuck ...";
+                            break;
+                        }
+                        _result = A % B;
+                        _calculateResult = _result.ToString();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            _calculateResult = "Input only numbers you retarded dipshit!";
+        }
     }
-
 
 #line default
 #line hidden

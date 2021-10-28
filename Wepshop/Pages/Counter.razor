@@ -1,17 +1,77 @@
 @page "/counter"
+@using System.Xml
 
-<h1>Counter</h1>
+<h1>Calculator</h1>
+<input @bind="_inputA"/> <input @bind="_inputB"/>
+<p>Result: @_calculateResult</p>
 
-<p>Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="()=>Calculate('+')">+</button>
+<button class="btn btn-primary" @onclick="()=>Calculate('-')">-</button>
+<button class="btn btn-primary" @onclick="()=>Calculate('*')">*</button>
+<button class="btn btn-primary" @onclick="()=>Calculate('/')">/</button>
+<button class="btn btn-primary" @onclick="()=>Calculate('M')">Mod</button>
 
 @code {
-    private int currentCount = 0;
+    private string _calculateResult;
+    private string _inputA;
+    private string _inputB;
+    private decimal _result;
 
-    private void IncrementCount()
+    private void Calculate(char c)
     {
-        currentCount++;
+        decimal A;
+        decimal B;
+        try
+        {
+            if (c  == '+')
+            {
+                _calculateResult = _inputA + _inputB;
+            }
+            else
+            {
+                A = Convert.ToDecimal(_inputA);
+                B = Convert.ToDecimal(_inputB);
+                
+                switch (@c)
+                {
+                    case '+':
+                        _result = A + B;
+                        _calculateResult = _result.ToString();
+                        break;
+                    case '-':
+                        _result = A - B;
+                        _calculateResult = _result.ToString();
+                        break;
+                    case '*':
+                        _result = A * B;
+                        _calculateResult = _result.ToString();
+                        break;
+                    case '/':
+                        if (B == 0)
+                        {
+                            _calculateResult = "You can't divide by zero you dumb fuck ...";
+                            break;;
+                        }
+                        _result = A / B;
+                        _calculateResult = _result.ToString();
+                        break;
+                    case 'M':
+                        if (B == 0)
+                        {
+                            _calculateResult = "You can't divide by zero you dumb fuck ...";
+                            break;
+                        }
+                        _result = A % B;
+                        _calculateResult = _result.ToString();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            _calculateResult = "Input only numbers you retarded dipshit!";
+        }
     }
-
 }
