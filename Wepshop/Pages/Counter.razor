@@ -19,8 +19,6 @@
 
     private void Calculate(char c)
     {
-        decimal A;
-        decimal B;
         try
         {
             if (c  == '+')
@@ -29,8 +27,8 @@
             }
             else
             {
-                A = Convert.ToDecimal(_inputA);
-                B = Convert.ToDecimal(_inputB);
+                decimal A = Convert.ToDecimal(_inputA);
+                decimal B = Convert.ToDecimal(_inputB);
                 
                 switch (@c)
                 {

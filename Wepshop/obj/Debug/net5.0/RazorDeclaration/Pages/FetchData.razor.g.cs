@@ -93,22 +93,20 @@ using Wepshop.Shared;
 #nullable restore
 #line 39 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/FetchData.razor"
        
-    private WeatherForecast[] forecasts;
+    private ProductDTO[] products;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+        products = await Http.GetFromJsonAsync<ProductDTO[]>("https://192.168.236.129:5001/Shop/Products");
     }
 
-    public class WeatherForecast
+    public class ProductDTO
     {
-        public DateTime Date { get; set; }
-
-        public int TemperatureC { get; set; }
-
-        public string Summary { get; set; }
-
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        public string Name { get; set; }
+        public string Vendor { get; set; }
+        public Double Price { get; set; }
+        public string Category { get; set; }
+        public int ID { get; set; }
     }
 
 

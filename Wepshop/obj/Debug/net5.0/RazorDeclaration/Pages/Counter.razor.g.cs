@@ -107,8 +107,6 @@ using System.Xml;
 
     private void Calculate(char c)
     {
-        decimal A;
-        decimal B;
         try
         {
             if (c  == '+')
@@ -117,8 +115,8 @@ using System.Xml;
             }
             else
             {
-                A = Convert.ToDecimal(_inputA);
-                B = Convert.ToDecimal(_inputB);
+                decimal A = Convert.ToDecimal(_inputA);
+                decimal B = Convert.ToDecimal(_inputB);
                 
                 switch (@c)
                 {
