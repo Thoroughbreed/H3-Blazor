@@ -89,6 +89,13 @@ using System.Xml;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 3 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Counter.razor"
+using Wepshop.Classes;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/counter")]
     public partial class Counter : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -98,7 +105,7 @@ using System.Xml;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 14 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Counter.razor"
+#line 17 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Counter.razor"
        
     private string _calculateResult;
     private string _inputA;
@@ -160,10 +167,19 @@ using System.Xml;
             _calculateResult = "Input only numbers you retarded dipshit!";
         }
     }
+    
+    private ProductDTO[] _products;
+    private string _param;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _products = await _http.GetFromJsonAsync<ProductDTO[]>($"https://192.168.236.133:5001/Shop/Products?search={_param}");
+    }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private HttpClient _http { get; set; }
     }
 }
 #pragma warning restore 1591

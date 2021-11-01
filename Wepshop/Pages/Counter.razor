@@ -1,5 +1,7 @@
 @page "/counter"
 @using System.Xml
+@using Wepshop.Classes
+@inject HttpClient _http
 
 <h1>Calculator</h1>
 <input @bind="_inputA"/> <input @bind="_inputB"/>
@@ -10,6 +12,7 @@
 <button class="btn btn-primary" @onclick="()=>Calculate('*')">*</button>
 <button class="btn btn-primary" @onclick="()=>Calculate('/')">/</button>
 <button class="btn btn-primary" @onclick="()=>Calculate('M')">Mod</button>
+<hr/>
 
 @code {
     private string _calculateResult;
@@ -71,5 +74,13 @@
         {
             _calculateResult = "Input only numbers you retarded dipshit!";
         }
+    }
+    
+    private ProductDTO[] _products;
+    private string _param;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _products = await _http.GetFromJsonAsync<ProductDTO[]>($"https://192.168.236.133:5001/Shop/Products?search={_param}");
     }
 }

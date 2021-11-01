@@ -82,6 +82,13 @@ using Wepshop.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 2 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/FetchData.razor"
+using Wepshop.Classes;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/fetchdata")]
     public partial class FetchData : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -91,29 +98,32 @@ using Wepshop.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 39 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/FetchData.razor"
+#line 56 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/FetchData.razor"
        
-    private ProductDTO[] products;
+    // private ProductDTO[] _products;
+    private List<ProductDTO> _products;
+    private string _param;
 
+    private async Task Search()
+    {
+        try
+        {
+            _products = await _http.GetFromJsonAsync<List<ProductDTO>>($"https://192.168.236.142:5001/Shop/Products?search={_param}");
+        }
+        catch (Exception e)
+        {
+            _products = null;
+        }
+    }
     protected override async Task OnInitializedAsync()
     {
-        products = await Http.GetFromJsonAsync<ProductDTO[]>("https://192.168.236.129:5001/Shop/Products");
+        _products = await _http.GetFromJsonAsync<List<ProductDTO>>($"https://192.168.236.142:5001/Shop/Products?search={_param}");
     }
-
-    public class ProductDTO
-    {
-        public string Name { get; set; }
-        public string Vendor { get; set; }
-        public Double Price { get; set; }
-        public string Category { get; set; }
-        public int ID { get; set; }
-    }
-
 
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private HttpClient Http { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private HttpClient _http { get; set; }
     }
 }
 #pragma warning restore 1591

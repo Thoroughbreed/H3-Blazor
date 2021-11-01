@@ -1,7 +1,84 @@
 ﻿@page "/"
+@using Wepshop.Classes
+@inject HttpClient _http
 
-<h1>Hello, world!</h1>
+<h1>Heil Welt!</h1>
+Willkommen auf Das Spielplatz.
+<hr/>
+<input @bind="_city"/>
+<button class="btn btn-outline-success" @onclick="Weather">Søg</button>
+<p>Vejret for <span>@_city</span> er:</p>
+@if (_weatherResult == null)
+{
+    <p>Wtf?!</p>
+}
+else
+{
+    <table class="table table-striped">
+        <tr><th>Day: </th>
+            <th>@_weatherResult.temperature</th>
+            <th>@_weatherResult.description</th>
+            <th>@_weatherResult.wind</th>
+        </tr>
+        @foreach (var fore in _weatherResult.forecast)
+        {
+            <tr>
+                <td>@fore.day</td>
+                <td>@fore.temperature</td>
+                <td></td>
+                <td>@fore.wind</td>
+            </tr>
+        }
+    </table>
+}
+<hr/>
+<input @bind="_road"/>
+<button class="btn btn-outline-success" @onclick="Adresse">Søg</button>
+@if (_adresseResult == null)
+{
+    <p>Wtf?!</p>
+}
+else
+{
+    <table class="table table-striped">
+        @foreach (var item in _adresseResult)
+        {
+            <tr>
+                <td>@item.tekst</td>
+            </tr>
+        }
+    </table>
+}
 
-Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?"/>
+@code
+{
+    private string _city;
+    private string _road;
+    private Weather _weatherResult;
+    private List<Adresse> _adresseResult;
+
+    private async Task Weather()
+    {
+        try
+        {
+            _weatherResult = await _http.GetFromJsonAsync<Weather>($"https://goweather.herokuapp.com/weather/{_city}");
+        }
+        catch (Exception e)
+        {
+            _weatherResult = null;
+        }
+    }
+
+    private async Task Adresse()
+    {
+        try
+        {
+            _adresseResult = await _http.GetFromJsonAsync<List<Adresse>>($"https://api.dataforsyningen.dk/autocomplete?q={_road}");
+        }
+        catch (Exception e)
+        {
+            _adresseResult = null;
+        }
+    }
+}

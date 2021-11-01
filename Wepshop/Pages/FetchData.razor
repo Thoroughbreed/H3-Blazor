@@ -1,56 +1,76 @@
 ﻿@page "/fetchdata"
-@inject HttpClient Http
+@using Wepshop.Classes
+@inject HttpClient _http
 
-<h1>Weather forecast</h1>
+<h1>El Niño Vegano Shoppo</h1>
+<input @bind="_param"/>
+<button class="btn btn-outline-success" @onclick="Search">Søg</button>
+<hr/>
 
-<p>This component demonstrates fetching data from the server.</p>
-
-@if (products == null)
+@if (_products == null)
 {
-    <p>
-        <em>Loading...</em>
-    </p>
+    <H3>
+            <em>No products were found ...</em>
+    </H3>
 }
 else
 {
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Vendor</th>
-            <th>Price</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var prod in products)
+    <div class="card-deck">
+        @foreach (var prod in _products)
         {
-            <tr>
-                <td>@prod.Name</td>
-                <td>@prod.Category</td>
-                <td>@prod.Vendor</td>
-                <td>@prod.Price</td>
-            </tr>
+            <div class="col-sm-4">
+                <div class="card my-4">
+                    
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <h5 class="card-title">@prod.Name</h5>
+                                <p class="card-text">@prod.Category</p>
+                                <p class="card-text">@prod.Price kr</p>
+                                @if (prod.Vendor != "")
+                                {
+                                    <p class="card-text">@prod.Vendor</p>
+                                }
+                            </div>
+                            <div class="col-6">
+                                <img class="img-fluid" src="img/products/@prod.SKU" alt="@prod.Name"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <a class="btn btn-info">
+                            Se mere
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                        <a class="btn btn-success">
+                            Tilføj til kurv
+                            <i class="fas fa-shopping-basket"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         }
-        </tbody>
-    </table>
+    </div>
 }
 
 @code {
-    private ProductDTO[] products;
+    // private ProductDTO[] _products;
+    private List<ProductDTO> _products;
+    private string _param;
 
+    private async Task Search()
+    {
+        try
+        {
+            _products = await _http.GetFromJsonAsync<List<ProductDTO>>($"https://192.168.236.142:5001/Shop/Products?search={_param}");
+        }
+        catch (Exception e)
+        {
+            _products = null;
+        }
+    }
     protected override async Task OnInitializedAsync()
     {
-        products = await Http.GetFromJsonAsync<ProductDTO[]>("https://192.168.236.129:5001/Shop/Products");
+        _products = await _http.GetFromJsonAsync<List<ProductDTO>>($"https://192.168.236.142:5001/Shop/Products?search={_param}");
     }
-
-    public class ProductDTO
-    {
-        public string Name { get; set; }
-        public string Vendor { get; set; }
-        public Double Price { get; set; }
-        public string Category { get; set; }
-        public int ID { get; set; }
-    }
-
 }

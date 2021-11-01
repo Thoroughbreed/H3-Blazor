@@ -82,6 +82,13 @@ using Wepshop.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 2 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Index.razor"
+using Wepshop.Classes;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/")]
     public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -90,6 +97,42 @@ using Wepshop.Shared;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 55 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Index.razor"
+ 
+    private string _city;
+    private string _road;
+    private Weather _weatherResult;
+    private List<Adresse> _adresseResult;
+
+    private async Task Weather()
+    {
+        try
+        {
+            _weatherResult = await _http.GetFromJsonAsync<Weather>($"https://goweather.herokuapp.com/weather/{_city}");
+        }
+        catch (Exception e)
+        {
+            _weatherResult = null;
+        }
+    }
+
+    private async Task Adresse()
+    {
+        try
+        {
+            _adresseResult = await _http.GetFromJsonAsync<List<Adresse>>($"https://api.dataforsyningen.dk/autocomplete?q={_road}");
+        }
+        catch (Exception e)
+        {
+            _adresseResult = null;
+        }
+    }
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private HttpClient _http { get; set; }
     }
 }
 #pragma warning restore 1591
