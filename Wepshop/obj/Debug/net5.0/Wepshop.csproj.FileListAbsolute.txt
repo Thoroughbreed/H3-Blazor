@@ -627,3 +627,15 @@
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Wepshop.dll
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/ref/Wepshop.dll
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Wepshop.pdb
+/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/RazorDeclaration/Pages/Details.razor.g.cs
+/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Razor/Pages/Details.razor.g.cs
+/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/RazorDeclaration/Pages/Cart.razor.g.cs
+/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Razor/Pages/Cart.razor.g.cs
+/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/RazorDeclaration/Shared/ProductCard.razor.g.cs
+/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Razor/Shared/ProductCard.razor.g.cs
+/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/RazorDeclaration/Pages/Checkout.razor.g.cs
+/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Razor/Pages/Checkout.razor.g.cs
+/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/RazorDeclaration/Pages/FindOrder.razor.g.cs
+/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/RazorDeclaration/Pages/Success.razor.g.cs
+/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Razor/Pages/FindOrder.razor.g.cs
+/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Razor/Pages/Success.razor.g.cs

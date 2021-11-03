@@ -1,0 +1,38 @@
+@using Wepshop.Classes
+<div class="col-sm-4">
+    <div class="card my-4">
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="card-title">@prod.Name</h5>
+                    <p class="card-text">@prod.Category</p>
+                    <p class="card-text">@prod.Price kr</p>
+                    @if (prod.Vendor != "")
+                    {
+                        <p class="card-text">@prod.Vendor</p>
+                    }
+                </div>
+                <div class="col-6">
+                    <img class="img-fluid" src="img/products/@prod.SKU" alt="@prod.Name"/>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <a class="btn btn-info" href="Details/@prod.Id">
+                Se mere
+                <i class="fas fa-info-circle"></i>
+            </a>
+            <a class="btn btn-success" href="FetchData" @onclick="() => MainLayout.AddToCart(prod.Id)">
+                Tilføj til kurv
+                <i class="fas fa-shopping-basket"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    [Parameter] public ProductDTO prod { get; set; }
+    [CascadingParameter] MainLayout MainLayout { get; set; }
+}

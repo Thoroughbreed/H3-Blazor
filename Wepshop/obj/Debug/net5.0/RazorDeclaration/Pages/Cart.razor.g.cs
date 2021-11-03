@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace Wepshop.Shared
+namespace Wepshop.Pages
 {
     #line hidden
     using System;
@@ -82,7 +82,15 @@ using Wepshop.Shared;
 #line default
 #line hidden
 #nullable disable
-    public partial class NavMenu : Microsoft.AspNetCore.Components.ComponentBase
+#nullable restore
+#line 2 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Cart.razor"
+using Wepshop.Classes;
+
+#line default
+#line hidden
+#nullable disable
+    [Microsoft.AspNetCore.Components.RouteAttribute("/Cart")]
+    public partial class Cart : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -90,17 +98,17 @@ using Wepshop.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 40 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/NavMenu.razor"
+#line 41 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Cart.razor"
        
-    private bool _collapseNavMenu = true;
+    private List<OrderItemsDTO> ShoppingCart { get; } = new List<OrderItemsDTO>();
+    public OrderDTO Order { get; set; }
+    public CustomerDTO Customer { get; set; }
 
-    private string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
-    private void ToggleNavMenu()
-    {
-        _collapseNavMenu = !_collapseNavMenu;
-    }
+    private List<CartOrderItems> CartOrderItems { get; set; }
 
+    [CascadingParameter]
+    protected MainLayout MainLayout { get; set; }
 
 #line default
 #line hidden

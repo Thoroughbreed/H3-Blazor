@@ -11,7 +11,6 @@ namespace Wepshop.Pages
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Components;
 #nullable restore
 #line 1 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/_Imports.razor"
 using System.Net.Http;
@@ -83,14 +82,21 @@ using Wepshop.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/FetchData.razor"
+#line 2 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Checkout.razor"
+using Microsoft.AspNetCore.Components;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 3 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Checkout.razor"
 using Wepshop.Classes;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/fetchdata")]
-    public partial class FetchData : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/Checkout")]
+    public partial class Checkout : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -98,30 +104,66 @@ using Wepshop.Classes;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 25 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/FetchData.razor"
+#line 36 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Checkout.razor"
        
-
-    private List<ProductDTO> _products;
-    private string _param;
+    private CustomerDTO[] _custArr;
+    private CustomerDTO _cust = new();
+    private OrderDTO _order { get; set; }
+    private OrderDTO[] _orders { get; set; }
+    private EditContext EditContext = new(new CustomerDTO());
+    private string DebugMsg;
 
     [CascadingParameter]
     protected MainLayout MainLayout { get; set; }
 
-    private void Search()
-    {
-        _products = MainLayout.Products.Where(p => p.Name.ToLower().Contains(_param.ToLower())).ToList();
-    }
+    [Parameter]
+    public int CustID { get; set; } = 8; // Hardcoded test value
 
     protected override async Task OnInitializedAsync()
     {
-        _products = await _http.GetFromJsonAsync<List<ProductDTO>>($"https://192.168.236.142:5001/Shop/Products?search={_param}");
-        MainLayout.Products = _products;
+        _custArr = await _http.GetFromJsonAsync<CustomerDTO[]>($"https://192.168.236.142:5001/Shop/Customers?search=api");
+        await base.OnInitializedAsync();
+        _cust = _custArr[0];
+        EditContext = new EditContext(_cust);
+    }
+
+    private async Task OnValidSubmit()
+    {
+        _orders = new OrderDTO[MainLayout.CartItems.Count];
+        foreach (var item in MainLayout.CartItems)
+        {
+            _orders[MainLayout.CartItems.IndexOf(item)] = new OrderDTO
+            {
+                Amount = item._Amount,
+                Product = item._ProductID,
+                CustomerId = _cust.id,
+                LinePrice = item._LinePrice
+            };
+        }
+
+        if (_cust.orders < 1)
+        {
+            _cust.orders = 1;
+        }
+        else
+        {
+            _cust.orders++;
+        }
+        await _http.PutAsJsonAsync<CustomerDTO>("https://192.168.236.142:5001/Shop/Customers", _cust);
+        var response = await _http.PostAsJsonAsync<OrderDTO[]>("https://192.168.236.142:5001/Shop/Orders", _orders);
+
+        if (response.StatusCode == System.Net.HttpStatusCode.Created)
+        {
+            MainLayout.CartItems.Clear();
+            _nav.NavigateTo($"Success/{response.Content.ReadAsStringAsync()}");
+        }
     }
 
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager _nav { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private HttpClient _http { get; set; }
     }
 }

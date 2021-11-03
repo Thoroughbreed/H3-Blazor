@@ -1,0 +1,51 @@
+@page "/Cart"
+@using Wepshop.Classes
+<h3>Cart</h3>
+
+@if (MainLayout.CartItems.Count() > 0)
+{
+    <table class="table table-striped">
+        @foreach (var item in MainLayout.CartItems)
+        {
+            <tr>
+                <td>
+                    <a href="Cart" @onclick="() => MainLayout.RemoveAmount(item._ProductID)">
+                        <i class="oi oi-x"></i>
+                    </a>
+                    @MainLayout.Products.FirstOrDefault(p => p.Id == @item._ProductID).Name
+                </td>
+                <td class="text-center">@MainLayout.Products.FirstOrDefault(p => p.Id == @item._ProductID).Price</td>
+                <td class="text-center">
+                    <a href="Cart" @onclick="() => MainLayout.SubAmount(item._ProductID)">
+                        <i class="oi oi-minus"></i>
+                    </a>
+                    @item._Amount
+                    <a href="Cart" @onclick="() => MainLayout.AddAmount(item._ProductID)">
+                        <i class="oi oi-plus"></i>
+                    </a>
+                </td>
+                <td class="text-center">
+                    @($"{@item._LinePrice:C}")
+                </td>
+            </tr>
+        }
+    </table>
+    <a href="Cart" @onclick="MainLayout.ClearBasket" class="btn btn-danger">Empty basket ...</a>
+    <a href="Checkout" class="btn btn-success">Checkout!</a>
+}
+else
+{
+    <h3>Awwwww, your cart is empty *sadface*</h3>
+}
+
+@code {
+    private List<OrderItemsDTO> ShoppingCart { get; } = new List<OrderItemsDTO>();
+    public OrderDTO Order { get; set; }
+    public CustomerDTO Customer { get; set; }
+
+
+    private List<CartOrderItems> CartOrderItems { get; set; }
+
+    [CascadingParameter]
+    protected MainLayout MainLayout { get; set; }
+}

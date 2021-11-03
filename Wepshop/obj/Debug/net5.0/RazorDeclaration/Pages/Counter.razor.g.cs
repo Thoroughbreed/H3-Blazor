@@ -162,18 +162,10 @@ using Wepshop.Classes;
                 }
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
             _calculateResult = "Input only numbers you retarded dipshit!";
         }
-    }
-    
-    private ProductDTO[] _products;
-    private string _param;
-
-    protected override async Task OnInitializedAsync()
-    {
-        _products = await _http.GetFromJsonAsync<ProductDTO[]>($"https://192.168.236.133:5001/Shop/Products?search={_param}");
     }
 
 #line default

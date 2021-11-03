@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace Wepshop.Shared
+namespace Wepshop.Pages
 {
     #line hidden
     using System;
@@ -82,7 +82,8 @@ using Wepshop.Shared;
 #line default
 #line hidden
 #nullable disable
-    public partial class NavMenu : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/Success/{string:guid}")]
+    public partial class Success : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -90,17 +91,10 @@ using Wepshop.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 40 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/NavMenu.razor"
+#line 4 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Success.razor"
        
-    private bool _collapseNavMenu = true;
-
-    private string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        _collapseNavMenu = !_collapseNavMenu;
-    }
-
+    [Parameter]
+    public string Guid { get; set; }
 
 #line default
 #line hidden

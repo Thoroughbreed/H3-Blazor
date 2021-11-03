@@ -4,6 +4,8 @@ namespace Wepshop.Classes
     {
         public string navn { get; set; }
         public string href { get; set; }
+        public string postnr { get; set; }
+        public string postnrnavn { get; set; }
     }
 
     public class Adresse

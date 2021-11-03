@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace Wepshop.Shared
+namespace Wepshop.Pages
 {
     #line hidden
     using System;
@@ -82,7 +82,15 @@ using Wepshop.Shared;
 #line default
 #line hidden
 #nullable disable
-    public partial class NavMenu : Microsoft.AspNetCore.Components.ComponentBase
+#nullable restore
+#line 3 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Details.razor"
+using Wepshop.Classes;
+
+#line default
+#line hidden
+#nullable disable
+    [Microsoft.AspNetCore.Components.RouteAttribute("/Details/{Id:int}")]
+    public partial class Details : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -90,21 +98,26 @@ using Wepshop.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 40 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/NavMenu.razor"
+#line 48 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Details.razor"
        
-    private bool _collapseNavMenu = true;
 
-    private string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
+    [Parameter]
+    public int Id { get; set; }
+    [CascadingParameter]
+    MainLayout MainLayout { get; set; }
 
-    private void ToggleNavMenu()
+    private ProductDTO _prod;
+
+    protected override async Task OnInitializedAsync()
     {
-        _collapseNavMenu = !_collapseNavMenu;
+        _prod = await _http.GetFromJsonAsync<ProductDTO>($"https://192.168.236.142:5001/Shop/Products?search={Id}");
     }
 
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private HttpClient _http { get; set; }
     }
 }
 #pragma warning restore 1591

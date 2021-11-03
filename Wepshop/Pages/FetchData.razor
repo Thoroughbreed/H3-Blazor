@@ -3,74 +3,42 @@
 @inject HttpClient _http
 
 <h1>El Niño Vegano Shoppo</h1>
-<input @bind="_param"/>
+<input @bind-value="_param" @bind-value:event="oninput" @onkeyup="Search"/>
 <button class="btn btn-outline-success" @onclick="Search">Søg</button>
 <hr/>
-
-@if (_products == null)
+@if (_products == null || _products.Count < 1)
 {
-    <H3>
-            <em>No products were found ...</em>
-    </H3>
+    <h3>
+        <em>No products were found ...</em>
+    </h3>
 }
-else
+else if (_products != null || _products.Count <= 1)
 {
     <div class="card-deck">
         @foreach (var prod in _products)
         {
-            <div class="col-sm-4">
-                <div class="card my-4">
-                    
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-6">
-                                <h5 class="card-title">@prod.Name</h5>
-                                <p class="card-text">@prod.Category</p>
-                                <p class="card-text">@prod.Price kr</p>
-                                @if (prod.Vendor != "")
-                                {
-                                    <p class="card-text">@prod.Vendor</p>
-                                }
-                            </div>
-                            <div class="col-6">
-                                <img class="img-fluid" src="img/products/@prod.SKU" alt="@prod.Name"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer text-muted">
-                        <a class="btn btn-info">
-                            Se mere
-                            <i class="fas fa-info-circle"></i>
-                        </a>
-                        <a class="btn btn-success">
-                            Tilføj til kurv
-                            <i class="fas fa-shopping-basket"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <ProductCard prod="@prod"></ProductCard>
         }
     </div>
 }
 
 @code {
-    // private ProductDTO[] _products;
+
     private List<ProductDTO> _products;
     private string _param;
 
-    private async Task Search()
+    [CascadingParameter]
+    protected MainLayout MainLayout { get; set; }
+
+    private void Search()
     {
-        try
-        {
-            _products = await _http.GetFromJsonAsync<List<ProductDTO>>($"https://192.168.236.142:5001/Shop/Products?search={_param}");
-        }
-        catch (Exception e)
-        {
-            _products = null;
-        }
+        _products = MainLayout.Products.Where(p => p.Name.ToLower().Contains(_param.ToLower())).ToList();
     }
+
     protected override async Task OnInitializedAsync()
     {
         _products = await _http.GetFromJsonAsync<List<ProductDTO>>($"https://192.168.236.142:5001/Shop/Products?search={_param}");
+        MainLayout.Products = _products;
     }
+
 }

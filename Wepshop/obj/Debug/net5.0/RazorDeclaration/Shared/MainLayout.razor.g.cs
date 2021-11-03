@@ -82,6 +82,20 @@ using Wepshop.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 1 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/MainLayout.razor"
+using Wepshop.Classes;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 2 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/MainLayout.razor"
+using Wepshop.Pages;
+
+#line default
+#line hidden
+#nullable disable
     public partial class MainLayout : LayoutComponentBase
     {
         #pragma warning disable 1998
@@ -89,6 +103,84 @@ using Wepshop.Shared;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 26 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/MainLayout.razor"
+ 
+    public List<CartOrderItems> CartItems { get; set; } = new List<CartOrderItems>();
+    public List<ProductDTO> Products { get; set; } = new List<ProductDTO>();
+    private int CartAmount { get; set; } = 0;
+    private string _colour { get; set; } = "btn btn-warning";
+
+
+    public void AddToCart(int id)
+    {
+        if (CartItems.FirstOrDefault(c => c._ProductID == id) != null)
+        {
+            CartOrderItems cartItem = CartItems.First(c => c._ProductID == id);
+            cartItem._Amount++;
+            cartItem._LinePrice = (Products.Find(p => p.Id == id).Price * cartItem._Amount);
+        }
+        else
+        {
+            CartItems.Add(new CartOrderItems
+            {
+                _ProductID = id,
+                _LinePrice = Products.First(p => p.Id == id).Price,
+                _Amount = 1
+            });
+        }
+        CartAmount = CartItems.Sum(a => a._Amount);
+        _colour = "btn btn-success";
+    }
+
+    public void AddAmount(int id)
+    {
+        CartOrderItems cartItem = CartItems.FirstOrDefault(c => c._ProductID == id);
+        cartItem._Amount++;
+        cartItem._LinePrice = (Products.Find(p => p.Id == id).Price * cartItem._Amount);
+        CartAmount = CartItems.Sum(a => a._Amount);
+        _colour = "btn btn-success";
+    }
+
+    public void SubAmount(int id)
+    {
+        CartOrderItems cartItem = CartItems.FirstOrDefault(c => c._ProductID == id);
+        if (cartItem._Amount == 1)
+        {
+            RemoveAmount(id);
+        }
+        else
+        {
+            cartItem._Amount--;
+            cartItem._LinePrice = (Products.Find(p => p.Id == id).Price * cartItem._Amount);
+        }
+        CartAmount = CartItems.Sum(a => a._Amount);
+        if (CartAmount < 1)
+        {
+            _colour = "btn btn-warning";
+        }
+    }
+
+    public void RemoveAmount(int id)
+    {
+        var temp = CartItems.FirstOrDefault(c => c._ProductID == id);
+        CartItems.Remove(temp);
+        CartAmount = CartItems.Sum(a => a._Amount);
+        if (CartAmount < 1)
+        {
+            _colour = "btn btn-warning";
+        }
+    }
+
+    public void ClearBasket()
+    {
+        CartItems.Clear();
+        _colour = "btn btn-warning";
+    }
+
+#line default
+#line hidden
+#nullable disable
     }
 }
 #pragma warning restore 1591

@@ -1,0 +1,91 @@
+@page "/Checkout"
+@using Microsoft.AspNetCore.Components
+@using Wepshop.Classes
+@inject HttpClient _http
+@inject NavigationManager _nav
+<p>@DebugMsg</p>
+<h3>Show me your creditcard!</h3>
+<EditForm EditContext="@EditContext" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+
+    <div class="form-group">
+        <label for="InputName">Name: </label>
+        <input type="text" @bind-value="_cust.name" class="form-control" id="InputName"/>
+    </div>
+
+    <div class="form-group">
+        <label for="InputName">Address: </label>
+        <input type="text" @bind-value="_cust.address" class="form-control" id="InputName"/>
+    </div>
+    
+
+    <div class="form-group">
+        <label for="InputName">Zip & City: </label>
+        <input type="text" @bind-value="_cust.city" class="form-control" id="InputName"/>
+    </div>
+
+    <div class="form-group">
+        <label for="InputName">E-Mail: </label>
+        <input type="email" @bind-value="_cust.eMail" class="form-control" id="InputName"/>
+    </div>
+
+    <button type="submit" class="btn btn-success">BUY!!!!</button>
+</EditForm>
+<button class="btn btn-success" @onclick="OnValidSubmit">Buy ... button?</button>
+
+@code {
+    private CustomerDTO[] _custArr;
+    private CustomerDTO _cust = new();
+    private OrderDTO _order { get; set; }
+    private OrderDTO[] _orders { get; set; }
+    private EditContext EditContext = new(new CustomerDTO());
+    private string DebugMsg;
+
+    [CascadingParameter]
+    protected MainLayout MainLayout { get; set; }
+
+    [Parameter]
+    public int CustID { get; set; } = 8; // Hardcoded test value
+
+    protected override async Task OnInitializedAsync()
+    {
+        _custArr = await _http.GetFromJsonAsync<CustomerDTO[]>($"https://192.168.236.142:5001/Shop/Customers?search=api");
+        await base.OnInitializedAsync();
+        _cust = _custArr[0];
+        EditContext = new EditContext(_cust);
+    }
+
+    private async Task OnValidSubmit()
+    {
+        _orders = new OrderDTO[MainLayout.CartItems.Count];
+        foreach (var item in MainLayout.CartItems)
+        {
+            _orders[MainLayout.CartItems.IndexOf(item)] = new OrderDTO
+            {
+                Amount = item._Amount,
+                Product = item._ProductID,
+                CustomerId = _cust.id,
+                LinePrice = item._LinePrice
+            };
+        }
+
+        if (_cust.orders < 1)
+        {
+            _cust.orders = 1;
+        }
+        else
+        {
+            _cust.orders++;
+        }
+        await _http.PutAsJsonAsync<CustomerDTO>("https://192.168.236.142:5001/Shop/Customers", _cust);
+        var response = await _http.PostAsJsonAsync<OrderDTO[]>("https://192.168.236.142:5001/Shop/Orders", _orders);
+
+        if (response.StatusCode == System.Net.HttpStatusCode.Created)
+        {
+            MainLayout.CartItems.Clear();
+            _nav.NavigateTo($"Success/{response.Content.ReadAsStringAsync()}");
+        }
+    }
+
+}

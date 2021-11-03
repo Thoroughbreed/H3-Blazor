@@ -1,9 +1,26 @@
 ﻿@page "/"
 @using Wepshop.Classes
 @inject HttpClient _http
+@inject IJSRuntime _js
 
 <h1>Heil Welt!</h1>
 Willkommen auf Das Spielplatz.
+<hr/>
+Indtast MAC-adr: <input @bind-value="_mac" @bind-value:event="oninput" @onkeyup="Mac"/>
+<p>Producenten bag den MAC er:</p>
+<table class="table table-striped">
+    @if (_macResult != null)
+    {
+        @foreach (var item in _macResult)
+        {
+            <tr>
+                <td>@item.Company</td>
+                <td>@item.Type</td>
+                <td>@item.Country</td>
+            </tr>
+        }
+    }
+</table>
 <hr/>
 <input @bind="_city"/>
 <button class="btn btn-outline-success" @onclick="Weather">Søg</button>
@@ -15,7 +32,8 @@ Willkommen auf Das Spielplatz.
 else
 {
     <table class="table table-striped">
-        <tr><th>Day: </th>
+        <tr>
+            <th>Day: </th>
             <th>@_weatherResult.temperature</th>
             <th>@_weatherResult.description</th>
             <th>@_weatherResult.wind</th>
@@ -32,7 +50,7 @@ else
     </table>
 }
 <hr/>
-<input @bind="_road"/>
+<input @bind-value="_road" @bind-value:event="oninput" @onkeyup="Adresse"/>
 <button class="btn btn-outline-success" @onclick="Adresse">Søg</button>
 @if (_adresseResult == null)
 {
@@ -41,22 +59,47 @@ else
 else
 {
     <table class="table table-striped">
-        @foreach (var item in _adresseResult)
+        @if (int.TryParse(_road, out _integer))
         {
             <tr>
-                <td>@item.tekst</td>
+                <td>@_adresseResult[0].data.postnrnavn</td>
             </tr>
+        }
+        else
+        {
+            @foreach (var item in _adresseResult)
+            {
+                <tr>
+                    <td>@item.tekst</td>
+                </tr>
+            }
         }
     </table>
 }
 
 
+
+
 @code
 {
+    private int _integer;
     private string _city;
     private string _road;
+    private string _mac;
+    private List<Mac> _macResult;
     private Weather _weatherResult;
     private List<Adresse> _adresseResult;
+
+    private async Task Mac()
+    {
+        try
+        {
+            _macResult = await _http.GetFromJsonAsync<List<Mac>>($"https://www.macvendorlookup.com/api/v2/{_mac}");
+        }
+        catch (Exception)
+        {
+        }
+    }
 
     private async Task Weather()
     {
@@ -64,7 +107,7 @@ else
         {
             _weatherResult = await _http.GetFromJsonAsync<Weather>($"https://goweather.herokuapp.com/weather/{_city}");
         }
-        catch (Exception e)
+        catch (Exception)
         {
             _weatherResult = null;
         }
@@ -76,7 +119,7 @@ else
         {
             _adresseResult = await _http.GetFromJsonAsync<List<Adresse>>($"https://api.dataforsyningen.dk/autocomplete?q={_road}");
         }
-        catch (Exception e)
+        catch (Exception)
         {
             _adresseResult = null;
         }

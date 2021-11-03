@@ -98,12 +98,26 @@ using Wepshop.Classes;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 55 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Index.razor"
+#line 84 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Index.razor"
  
+    private int _integer;
     private string _city;
     private string _road;
+    private string _mac;
+    private List<Mac> _macResult;
     private Weather _weatherResult;
     private List<Adresse> _adresseResult;
+
+    private async Task Mac()
+    {
+        try
+        {
+            _macResult = await _http.GetFromJsonAsync<List<Mac>>($"https://www.macvendorlookup.com/api/v2/{_mac}");
+        }
+        catch (Exception)
+        {
+        }
+    }
 
     private async Task Weather()
     {
@@ -111,7 +125,7 @@ using Wepshop.Classes;
         {
             _weatherResult = await _http.GetFromJsonAsync<Weather>($"https://goweather.herokuapp.com/weather/{_city}");
         }
-        catch (Exception e)
+        catch (Exception)
         {
             _weatherResult = null;
         }
@@ -123,7 +137,7 @@ using Wepshop.Classes;
         {
             _adresseResult = await _http.GetFromJsonAsync<List<Adresse>>($"https://api.dataforsyningen.dk/autocomplete?q={_road}");
         }
-        catch (Exception e)
+        catch (Exception)
         {
             _adresseResult = null;
         }
@@ -132,6 +146,7 @@ using Wepshop.Classes;
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime _js { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private HttpClient _http { get; set; }
     }
 }

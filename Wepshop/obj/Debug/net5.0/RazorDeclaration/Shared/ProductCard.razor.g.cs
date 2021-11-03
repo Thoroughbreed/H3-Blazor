@@ -82,7 +82,14 @@ using Wepshop.Shared;
 #line default
 #line hidden
 #nullable disable
-    public partial class NavMenu : Microsoft.AspNetCore.Components.ComponentBase
+#nullable restore
+#line 1 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/ProductCard.razor"
+using Wepshop.Classes;
+
+#line default
+#line hidden
+#nullable disable
+    public partial class ProductCard : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -90,17 +97,10 @@ using Wepshop.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 40 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/NavMenu.razor"
-       
-    private bool _collapseNavMenu = true;
-
-    private string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        _collapseNavMenu = !_collapseNavMenu;
-    }
-
+#line 35 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/ProductCard.razor"
+ 
+    [Parameter] public ProductDTO prod { get; set; }
+    [CascadingParameter] MainLayout MainLayout { get; set; }
 
 #line default
 #line hidden

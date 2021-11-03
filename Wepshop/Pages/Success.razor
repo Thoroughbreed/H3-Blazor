@@ -1,0 +1,7 @@
+@page "/Success/{string:guid}"
+<h3>Success!</h3>
+Your order ID is: @Guid
+@code {
+    [Parameter]
+    public string Guid { get; set; }
+}

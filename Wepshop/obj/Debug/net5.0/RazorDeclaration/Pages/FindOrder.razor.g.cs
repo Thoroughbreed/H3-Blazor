@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace Wepshop.Shared
+namespace Wepshop.Pages
 {
     #line hidden
     using System;
@@ -82,7 +82,22 @@ using Wepshop.Shared;
 #line default
 #line hidden
 #nullable disable
-    public partial class NavMenu : Microsoft.AspNetCore.Components.ComponentBase
+#nullable restore
+#line 2 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/FindOrder.razor"
+using Wepshop.Classes;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 3 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/FindOrder.razor"
+using System.Net;
+
+#line default
+#line hidden
+#nullable disable
+    [Microsoft.AspNetCore.Components.RouteAttribute("/FindOrder")]
+    public partial class FindOrder : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -90,21 +105,42 @@ using Wepshop.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 40 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/NavMenu.razor"
+#line 30 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/FindOrder.razor"
        
-    private bool _collapseNavMenu = true;
+    private string _order { get; set; }
+    private OrderDTO _orderResult { get; set; }
+    private string ErrorMsg { get; set; }
 
-    private string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
+    private async void Search()
     {
-        _collapseNavMenu = !_collapseNavMenu;
+        if (_order.Length > 7)
+        {
+            var _response = await _http.GetAsync($"https://192.168.236.142:5001/Shop/Orders?guid={_order}");
+            ErrorMsg = _response.ToString();
+            if (_response.StatusCode == HttpStatusCode.OK)
+            {
+                ErrorMsg = await _response.Content.ReadAsStringAsync();
+                // _orderResult = JsonSerializer.Deserialize<OrderDTO>(ErrorMsg);
+                _orderResult = await _http.GetFromJsonAsync<OrderDTO>($"https://192.168.236.142:5001/Shop/Orders?guid={_order}");
+            }
+            else
+            {
+                ErrorMsg = $"Sorry, but we couldn't find any order matching the order ID {_order} *sadface*";
+                _orderResult = null;
+            }
+        }
+        else
+        {
+            ErrorMsg = "You have to input all 8 chars of your order ID";
+            _orderResult = null;
+        }
     }
 
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private HttpClient _http { get; set; }
     }
 }
 #pragma warning restore 1591

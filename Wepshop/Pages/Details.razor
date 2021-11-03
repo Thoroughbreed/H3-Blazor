@@ -1,0 +1,62 @@
+@page "/Details/{Id:int}"
+@inject HttpClient _http
+@using Wepshop.Classes
+
+
+<h3>Details</h3>
+@if (_prod != null)
+{
+    <div class="card-deck">
+        <div class="col-sm-8">
+            <div class="card my-8">
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5 class="card-title">@_prod.Name</h5>
+                            <p class="card-text">@_prod.Category</p>
+                            <p class="card-text">@_prod.Price kr</p>
+                            @if (_prod.Vendor != "")
+                            {
+                                <p class="card-text">@_prod.Vendor</p>
+                            }
+                        </div>
+                        <div class="col-6">
+                            <img class="img-fluid" src="img/products/@_prod.SKU" alt="@_prod.Name"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <a class="btn btn-info" href="FetchData">
+                        Tilbage
+                        <i class="fas fa-info-circle"></i>
+                    </a>
+                    <a class="btn btn-success" href="Details/@_prod.Id" @onclick="() => MainLayout.AddToCart(_prod.Id)">
+                        Tilføj til kurv
+                        <i class="fas fa-shopping-basket"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <h3>Product not found ....</h3>
+}
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+    [CascadingParameter]
+    MainLayout MainLayout { get; set; }
+
+    private ProductDTO _prod;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _prod = await _http.GetFromJsonAsync<ProductDTO>($"https://192.168.236.142:5001/Shop/Products?search={Id}");
+    }
+
+}

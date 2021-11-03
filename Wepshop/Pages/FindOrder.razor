@@ -1,0 +1,60 @@
+@page "/FindOrder"
+@using Wepshop.Classes
+@using System.Net
+@inject HttpClient _http
+
+<h3>Search for order</h3>
+Type order ID: <input @bind-value="_order" @bind-value:event="oninput" @onkeyup="Search"/>
+
+<p>@ErrorMsg</p>
+@if (_orderResult != null)
+{
+    <p>Welcome back @_orderResult.Customer.name! Your order details are:</p>
+    <table class="table table-striped">
+        <thead>
+        <th>Product:</th>
+        <th>Amount:</th>
+        <th>Total price:</th>
+        </thead>
+        @foreach (var item in _orderResult.Items)
+        {
+            <tr>
+                <td>@item.product</td>
+                <td>@item.amount</td>
+                <td>@item.linePrice</td>
+            </tr>
+        }
+    </table>
+}
+
+@code {
+    private string _order { get; set; }
+    private OrderDTO _orderResult { get; set; }
+    private string ErrorMsg { get; set; }
+
+    private async void Search()
+    {
+        if (_order.Length > 7)
+        {
+            var _response = await _http.GetAsync($"https://192.168.236.142:5001/Shop/Orders?guid={_order}");
+            ErrorMsg = _response.ToString();
+            if (_response.StatusCode == HttpStatusCode.OK)
+            {
+                ErrorMsg = await _response.Content.ReadAsStringAsync();
+                // _orderResult = JsonSerializer.Deserialize<OrderDTO>(ErrorMsg);
+                _orderResult = await _http.GetFromJsonAsync<OrderDTO>($"https://192.168.236.142:5001/Shop/Orders?guid={_order}");
+            }
+            else
+            {
+                ErrorMsg = $"Sorry, but we couldn't find any order matching the order ID {_order} *sadface*";
+                _orderResult = null;
+            }
+        }
+        else
+        {
+            ErrorMsg = "You have to input all 8 chars of your order ID";
+            _orderResult = null;
+        }
+    }
+
+}
