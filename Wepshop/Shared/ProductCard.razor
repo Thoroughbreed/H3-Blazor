@@ -7,7 +7,7 @@
                 <div class="col-6">
                     <h5 class="card-title">@prod.Name</h5>
                     <p class="card-text">@prod.Category</p>
-                    <p class="card-text">@prod.Price kr</p>
+                    <p class="card-text">@($"{prod.Price:C}")</p>
                     @if (prod.Vendor != "")
                     {
                         <p class="card-text">@prod.Vendor</p>

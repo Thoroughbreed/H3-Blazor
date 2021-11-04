@@ -18,7 +18,10 @@ namespace Wepshop
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped(sp => new HttpClient
-                { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+                { BaseAddress = new Uri("https://192.168.236.145:5001") });
+            
+            
+            // https://192.168.236.142:5001
 
             await builder.Build().RunAsync();
         }

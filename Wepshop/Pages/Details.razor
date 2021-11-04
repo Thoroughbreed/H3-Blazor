@@ -15,7 +15,7 @@
                         <div class="col-6">
                             <h5 class="card-title">@_prod.Name</h5>
                             <p class="card-text">@_prod.Category</p>
-                            <p class="card-text">@_prod.Price kr</p>
+                            <p class="card-text">@($"{_prod.Price:C}")</p>
                             @if (_prod.Vendor != "")
                             {
                                 <p class="card-text">@_prod.Vendor</p>
@@ -56,7 +56,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _prod = await _http.GetFromJsonAsync<ProductDTO>($"https://192.168.236.142:5001/Shop/Products?search={Id}");
+        // _prod = await _http.GetFromJsonAsync<ProductDTO>($"https://192.168.236.142:5001/Shop/Products?search={Id}");
+        _prod = await _http.GetFromJsonAsync<ProductDTO>($"/Shop/Products?search={Id}");
     }
 
 }

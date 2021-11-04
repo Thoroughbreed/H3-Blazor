@@ -82,7 +82,7 @@ using Wepshop.Shared;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/Success/{string:guid}")]
+    [Microsoft.AspNetCore.Components.RouteAttribute("/Success/{Guid}")]
     public partial class Success : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -91,7 +91,7 @@ using Wepshop.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 4 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Success.razor"
+#line 5 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Success.razor"
        
     [Parameter]
     public string Guid { get; set; }

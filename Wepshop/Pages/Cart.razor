@@ -14,7 +14,7 @@
                     </a>
                     @MainLayout.Products.FirstOrDefault(p => p.Id == @item._ProductID).Name
                 </td>
-                <td class="text-center">@MainLayout.Products.FirstOrDefault(p => p.Id == @item._ProductID).Price</td>
+                <td class="text-center">@($"{MainLayout.Products.FirstOrDefault(p => p.Id == @item._ProductID).Price:C}")</td>
                 <td class="text-center">
                     <a href="Cart" @onclick="() => MainLayout.SubAmount(item._ProductID)">
                         <i class="oi oi-minus"></i>

@@ -110,7 +110,8 @@ using Wepshop.Classes;
 
     protected override async Task OnInitializedAsync()
     {
-        _prod = await _http.GetFromJsonAsync<ProductDTO>($"https://192.168.236.142:5001/Shop/Products?search={Id}");
+        // _prod = await _http.GetFromJsonAsync<ProductDTO>($"https://192.168.236.142:5001/Shop/Products?search={Id}");
+        _prod = await _http.GetFromJsonAsync<ProductDTO>($"/Shop/Products?search={Id}");
     }
 
 

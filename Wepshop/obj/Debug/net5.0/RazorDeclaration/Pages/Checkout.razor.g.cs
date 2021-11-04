@@ -121,7 +121,8 @@ using Wepshop.Classes;
 
     protected override async Task OnInitializedAsync()
     {
-        _custArr = await _http.GetFromJsonAsync<CustomerDTO[]>($"https://192.168.236.142:5001/Shop/Customers?search=api");
+        // _custArr = await _http.GetFromJsonAsync<CustomerDTO[]>($"https://192.168.236.142:5001/Shop/Customers?search=api");
+        _custArr = await _http.GetFromJsonAsync<CustomerDTO[]>($"/Shop/Customers?search=api");
         await base.OnInitializedAsync();
         _cust = _custArr[0];
         EditContext = new EditContext(_cust);
@@ -149,13 +150,15 @@ using Wepshop.Classes;
         {
             _cust.orders++;
         }
-        await _http.PutAsJsonAsync<CustomerDTO>("https://192.168.236.142:5001/Shop/Customers", _cust);
-        var response = await _http.PostAsJsonAsync<OrderDTO[]>("https://192.168.236.142:5001/Shop/Orders", _orders);
+        // await _http.PutAsJsonAsync<CustomerDTO>("https://192.168.236.142:5001/Shop/Customers", _cust);
+        // var response = await _http.PostAsJsonAsync<OrderDTO[]>("https://192.168.236.142:5001/Shop/Orders", _orders);
+        await _http.PutAsJsonAsync<CustomerDTO>("/Shop/Customers", _cust);
+        var response = await _http.PostAsJsonAsync<OrderDTO[]>("/Shop/Orders", _orders);
 
         if (response.StatusCode == System.Net.HttpStatusCode.Created)
         {
             MainLayout.CartItems.Clear();
-            _nav.NavigateTo($"Success/{response.Content.ReadAsStringAsync()}");
+            _nav.NavigateTo($"Success/{await response.Content.ReadAsStringAsync()}");
         }
     }
 

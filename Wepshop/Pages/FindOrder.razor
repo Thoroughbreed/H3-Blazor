@@ -6,22 +6,24 @@
 <h3>Search for order</h3>
 Type order ID: <input @bind-value="_order" @bind-value:event="oninput" @onkeyup="Search"/>
 
-<p>@ErrorMsg</p>
+@* <p>@DebugMsg</p> *@
 @if (_orderResult != null)
 {
     <p>Welcome back @_orderResult.Customer.name! Your order details are:</p>
     <table class="table table-striped">
         <thead>
         <th>Product:</th>
+        <th>Price:</th>
         <th>Amount:</th>
         <th>Total price:</th>
         </thead>
         @foreach (var item in _orderResult.Items)
         {
             <tr>
-                <td>@item.product</td>
+                <td>@_products.FirstOrDefault(p => p.Id == @item.product).Name</td>
+                <td>@($"{_products.FirstOrDefault(p => p.Id == @item.product).Price:C}")</td>
                 <td>@item.amount</td>
-                <td>@item.linePrice</td>
+                <td>@($"{item.linePrice:C}")</td>
             </tr>
         }
     </table>
@@ -30,31 +32,40 @@ Type order ID: <input @bind-value="_order" @bind-value:event="oninput" @onkeyup=
 @code {
     private string _order { get; set; }
     private OrderDTO _orderResult { get; set; }
-    private string ErrorMsg { get; set; }
-
+    private string DebugMsg { get; set; }
+    private List<ProductDTO> _products { get; set; }
+    
+    [CascadingParameter] protected MainLayout MainLayout { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _products = await _http.GetFromJsonAsync<List<ProductDTO>>($"/Shop/Products");
+    }
+    
     private async void Search()
     {
         if (_order.Length > 7)
         {
-            var _response = await _http.GetAsync($"https://192.168.236.142:5001/Shop/Orders?guid={_order}");
-            ErrorMsg = _response.ToString();
+            // var _response = await _http.GetAsync($"https://192.168.236.142:5001/Shop/Orders?guid={_order}");
+            var _response = await _http.GetAsync($"/Shop/Orders?guid={_order}");
+            DebugMsg = _response.ToString();
             if (_response.StatusCode == HttpStatusCode.OK)
             {
-                ErrorMsg = await _response.Content.ReadAsStringAsync();
+                DebugMsg = await _response.Content.ReadAsStringAsync();
                 // _orderResult = JsonSerializer.Deserialize<OrderDTO>(ErrorMsg);
-                _orderResult = await _http.GetFromJsonAsync<OrderDTO>($"https://192.168.236.142:5001/Shop/Orders?guid={_order}");
+                // _orderResult = await _http.GetFromJsonAsync<OrderDTO>($"https://192.168.236.142:5001/Shop/Orders?guid={_order}");
+                _orderResult = await _http.GetFromJsonAsync<OrderDTO>($"/Shop/Orders?guid={_order}");
             }
             else
             {
-                ErrorMsg = $"Sorry, but we couldn't find any order matching the order ID {_order} *sadface*";
+                DebugMsg = $"Sorry, but we couldn't find any order matching the order ID {_order} *sadface*";
                 _orderResult = null;
             }
         }
         else
         {
-            ErrorMsg = "You have to input all 8 chars of your order ID";
+            DebugMsg = "You have to input all 8 chars of your order ID";
             _orderResult = null;
         }
     }
-
 }

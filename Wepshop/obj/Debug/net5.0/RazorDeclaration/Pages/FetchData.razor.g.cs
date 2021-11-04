@@ -109,12 +109,17 @@ using Wepshop.Classes;
 
     private void Search()
     {
-        _products = MainLayout.Products.Where(p => p.Name.ToLower().Contains(_param.ToLower())).ToList();
+        _products = MainLayout.Products
+            .Where(p => p.Name.ToLower().Contains(_param.ToLower())
+                        || p.Vendor.ToLower().Contains(_param.ToLower())
+                        || p.Category.ToLower().Contains(_param.ToLower()))
+            .ToList();
     }
 
     protected override async Task OnInitializedAsync()
     {
-        _products = await _http.GetFromJsonAsync<List<ProductDTO>>($"https://192.168.236.142:5001/Shop/Products?search={_param}");
+        // _products = await _http.GetFromJsonAsync<List<ProductDTO>>($"https://192.168.236.142:5001/Shop/Products?search={_param}");
+        _products = await _http.GetFromJsonAsync<List<ProductDTO>>($"/Shop/Products?search={_param}");
         MainLayout.Products = _products;
     }
 
