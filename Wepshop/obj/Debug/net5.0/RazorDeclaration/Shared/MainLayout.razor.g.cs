@@ -89,6 +89,13 @@ using Wepshop.Classes;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 2 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/MainLayout.razor"
+using System.Timers;
+
+#line default
+#line hidden
+#nullable disable
     public partial class MainLayout : LayoutComponentBase
     {
         #pragma warning disable 1998
@@ -97,11 +104,18 @@ using Wepshop.Classes;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 24 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/MainLayout.razor"
+#line 26 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/MainLayout.razor"
  
     public List<CartOrderItems> CartItems { get; set; } = new List<CartOrderItems>();
     public List<ProductDTO> Products { get; set; } = new List<ProductDTO>();
-    private int CartAmount { get; set; } = 0;
+    private int CartAmount { get; set; }
+    private Timer _timer { get; set; } = new Timer(3000);
+    
+    // Styling ish fields. 
+    // _colour sets the background colour of the basket icon in upper right corner
+    // _hideNseek is controlling the class of the toaster DIV and _item is the current item in the toaster
+    private string _hideNseek { get; set; } = "";
+    private string _item { get; set; } = "Defaulting to default value";
     private string _colour { get; set; } = "btn btn-warning";
     
     public void AddToCart(int id)
@@ -110,7 +124,7 @@ using Wepshop.Classes;
         {
             CartOrderItems cartItem = CartItems.First(c => c._ProductID == id);
             cartItem._Amount++;
-            cartItem._LinePrice = (Products.Find(p => p.Id == id).Price * cartItem._Amount);
+            cartItem._LinePrice = Products.Find(p => p.Id == id).Price * cartItem._Amount;
         }
         else
         {
@@ -122,14 +136,18 @@ using Wepshop.Classes;
             });
         }
         CartAmount = CartItems.Sum(a => a._Amount);
+        ShopPop(Products.FirstOrDefault(p => p.Id == id)?.Name);
         _colour = "btn btn-success";
     }
 
     public void AddAmount(int id)
     {
         CartOrderItems cartItem = CartItems.FirstOrDefault(c => c._ProductID == id);
-        cartItem._Amount++;
-        cartItem._LinePrice = (Products.Find(p => p.Id == id).Price * cartItem._Amount);
+        if (cartItem != null)
+        {
+            cartItem._Amount++;
+            cartItem._LinePrice = Products.Find(p => p.Id == id).Price * cartItem._Amount;
+        }
         CartAmount = CartItems.Sum(a => a._Amount);
         _colour = "btn btn-success";
     }
@@ -137,14 +155,17 @@ using Wepshop.Classes;
     public void SubAmount(int id)
     {
         CartOrderItems cartItem = CartItems.FirstOrDefault(c => c._ProductID == id);
-        if (cartItem._Amount == 1)
+        if (cartItem != null && cartItem._Amount == 1)
         {
             RemoveAmount(id);
         }
         else
         {
-            cartItem._Amount--;
-            cartItem._LinePrice = (Products.Find(p => p.Id == id).Price * cartItem._Amount);
+            if (cartItem != null)
+            {
+                cartItem._Amount--;
+                cartItem._LinePrice = Products.Find(p => p.Id == id).Price * cartItem._Amount;
+            }
         }
         CartAmount = CartItems.Sum(a => a._Amount);
         if (CartAmount < 1)
@@ -167,7 +188,24 @@ using Wepshop.Classes;
     public void ClearBasket()
     {
         CartItems.Clear();
+        CartAmount = 0;
         _colour = "btn btn-warning";
+    }
+    
+    
+    private void ShopPop(string p)
+    {
+        _item = p;
+        _hideNseek = "show";
+        _timer.Elapsed += OnTimedEvent;
+        _timer.Enabled = true;
+    }
+    
+    private void OnTimedEvent(Object source, ElapsedEventArgs e)
+    {
+        _hideNseek = "I TOLD YOU SO!";
+        StateHasChanged();
+        _timer.Enabled = false;
     }
 
 #line default

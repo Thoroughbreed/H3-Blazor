@@ -108,10 +108,10 @@ using Wepshop.Classes;
        
     private CustomerDTO[] _custArr;
     private CustomerDTO _cust = new();
-    private OrderDTO _order { get; set; }
+    // private OrderDTO _order { get; set; }
     private OrderDTO[] _orders { get; set; }
-    private EditContext EditContext = new(new CustomerDTO());
-    private string DebugMsg;
+    private EditContext _editContext = new(new CustomerDTO());
+    private string _debugMsg;
 
     [CascadingParameter]
     protected MainLayout MainLayout { get; set; }
@@ -123,7 +123,7 @@ using Wepshop.Classes;
         _custArr = await _http.GetFromJsonAsync<CustomerDTO[]>($"/Shop/Customers?search=api");
         await base.OnInitializedAsync();
         _cust = _custArr[0];
-        EditContext = new EditContext(_cust);
+        _editContext = new EditContext(_cust);
     }
 
     private async Task OnValidSubmit()
@@ -148,12 +148,12 @@ using Wepshop.Classes;
         {
             _cust.orders++;
         }
-        await _http.PutAsJsonAsync<CustomerDTO>("/Shop/Customers", _cust);
-        var response = await _http.PostAsJsonAsync<OrderDTO[]>("/Shop/Orders", _orders);
+        await _http.PutAsJsonAsync("/Shop/Customers", _cust);
+        var response = await _http.PostAsJsonAsync("/Shop/Orders", _orders);
 
         if (response.StatusCode == System.Net.HttpStatusCode.Created)
         {
-            MainLayout.CartItems.Clear();
+            MainLayout.ClearBasket();
             _nav.NavigateTo($"Success/{await response.Content.ReadAsStringAsync()}");
         }
     }

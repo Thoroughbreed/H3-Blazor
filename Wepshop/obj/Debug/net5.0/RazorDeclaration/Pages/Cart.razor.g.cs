@@ -82,27 +82,6 @@ using Wepshop.Shared;
 #line default
 #line hidden
 #nullable disable
-#nullable restore
-#line 2 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Cart.razor"
-using Wepshop.Classes;
-
-#line default
-#line hidden
-#nullable disable
-#nullable restore
-#line 3 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Cart.razor"
-using System.Timers;
-
-#line default
-#line hidden
-#nullable disable
-#nullable restore
-#line 4 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Cart.razor"
-using System.ComponentModel;
-
-#line default
-#line hidden
-#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/Cart")]
     public partial class Cart : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -112,33 +91,15 @@ using System.ComponentModel;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 45 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Cart.razor"
+#line 40 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Cart.razor"
        
-    private List<OrderItemsDTO> ShoppingCart { get; } = new List<OrderItemsDTO>();
-    public OrderDTO Order { get; set; }
-    public CustomerDTO Customer { get; set; }
-    private List<CartOrderItems> CartOrderItems { get; set; }
-    private string _hideNseek { get; set; } = "";
-    private string _item { get; set; } = "Defaulting to default value"; // TODO
-    private Timer _timer { get; set; } = new Timer(3000);
+    // private List<OrderItemsDTO> ShoppingCart { get; } = new List<OrderItemsDTO>();
+    // public OrderDTO Order { get; set; }
+    // public CustomerDTO Customer { get; set; }
+    // private List<CartOrderItems> CartOrderItems { get; set; }
 
     [CascadingParameter]
     protected MainLayout MainLayout { get; set; }
-
-    private void ShopPop(string p)
-    {
-        _item = p;
-        _hideNseek = "show";
-        _timer.Elapsed += OnTimedEvent;
-        _timer.Enabled = true;
-    }
-    
-    private void OnTimedEvent(Object source, ElapsedEventArgs e)
-    {
-        _hideNseek = "wtf";
-        StateHasChanged();
-        _timer.Enabled = false;
-    }
 
 #line default
 #line hidden

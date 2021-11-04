@@ -1,12 +1,8 @@
 using System;
 using System.Net.Http;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Text;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace Wepshop
 {
@@ -17,10 +13,13 @@ namespace Wepshop
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddScoped(sp => new HttpClient
+            // IMPORTANT
+            // Please make sure the goddamn IP is correct!
+            
+            builder.Services.AddScoped(_ => new HttpClient
                 { BaseAddress = new Uri("https://192.168.236.145:5001") });
             
-            
+            // TODO
             // https://192.168.236.142:5001
 
             await builder.Build().RunAsync();

@@ -124,9 +124,9 @@ using System.Net;
     {
         if (_order.Length > 7)
         {
-            var _response = await _http.GetAsync($"/Shop/Orders?guid={_order}");
-            DebugMsg = _response.ToString();
-            if (_response.StatusCode == HttpStatusCode.OK)
+            var response = await _http.GetAsync($"/Shop/Orders?guid={_order}");
+            // DebugMsg = response.ToString();
+            if (response.StatusCode == HttpStatusCode.OK)
             {
                 // DebugMsg = await _response.Content.ReadAsStringAsync();
                 _orderResult = await _http.GetFromJsonAsync<OrderDTO>($"/Shop/Orders?guid={_order}");

@@ -1,7 +1,4 @@
 @page "/Cart"
-@using Wepshop.Classes
-@using System.Timers
-@using System.ComponentModel
 <h3>Cart</h3>
 
 @if (MainLayout.CartItems.Count() > 0)
@@ -14,7 +11,7 @@
                     <a href="Cart" @onclick="() => MainLayout.RemoveAmount(item._ProductID)">
                         <i class="oi oi-x"></i>
                     </a>
-                    @MainLayout.Products.FirstOrDefault(p => p.Id == @item._ProductID).Name
+                    @MainLayout.Products.FirstOrDefault(p => p.Id == @item._ProductID)?.Name
                 </td>
                 <td class="text-center">@($"{MainLayout.Products.FirstOrDefault(p => p.Id == @item._ProductID).Price:C}")</td>
                 <td class="text-center">
@@ -39,33 +36,8 @@ else
 {
     <h3>Awwwww, your cart is empty *sadface*</h3>
 }
-<div id="snackbar" class="@_hideNseek">You did a thing @_item ... yay</div>
-<button @onclick="() => ShopPop(_item)">I dare you Lukas</button>
 
 @code {
-    private List<OrderItemsDTO> ShoppingCart { get; } = new List<OrderItemsDTO>();
-    public OrderDTO Order { get; set; }
-    public CustomerDTO Customer { get; set; }
-    private List<CartOrderItems> CartOrderItems { get; set; }
-    private string _hideNseek { get; set; } = "";
-    private string _item { get; set; } = "Defaulting to default value"; // TODO
-    private Timer _timer { get; set; } = new Timer(3000);
-
     [CascadingParameter]
     protected MainLayout MainLayout { get; set; }
-
-    private void ShopPop(string p)
-    {
-        _item = p;
-        _hideNseek = "show";
-        _timer.Elapsed += OnTimedEvent;
-        _timer.Enabled = true;
-    }
-    
-    private void OnTimedEvent(Object source, ElapsedEventArgs e)
-    {
-        _hideNseek = "wtf";
-        StateHasChanged();
-        _timer.Enabled = false;
-    }
 }

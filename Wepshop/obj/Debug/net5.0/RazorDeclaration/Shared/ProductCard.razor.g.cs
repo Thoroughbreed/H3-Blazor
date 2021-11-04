@@ -99,7 +99,7 @@ using Wepshop.Classes;
 #nullable restore
 #line 36 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/ProductCard.razor"
  
-    [Parameter] public ProductDTO prod { get; set; }
+    [Parameter] public ProductDTO Prod { get; set; }
     [CascadingParameter] protected MainLayout MainLayout { get; set; }
 
 #line default

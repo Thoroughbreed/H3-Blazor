@@ -6,25 +6,25 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-6">
-                    <h5 class="card-title">@prod.Name</h5>
-                    <p class="card-text">@prod.Category</p>
-                    <p class="card-text">@($"{prod.Price:C}")</p>
-                    @if (prod.Vendor != "")
+                    <h5 class="card-title">@Prod.Name</h5>
+                    <p class="card-text">@Prod.Category</p>
+                    <p class="card-text">@($"{Prod.Price:C}")</p>
+                    @if (Prod.Vendor != "")
                     {
-                        <p class="card-text">@prod.Vendor</p>
+                        <p class="card-text">@Prod.Vendor</p>
                     }
                 </div>
                 <div class="col-6">
-                    <img class="img-fluid" src="img/products/@prod.SKU" alt="@prod.Name"/>
+                    <img class="img-fluid" src="img/products/@Prod.SKU" alt="@Prod.Name"/>
                 </div>
             </div>
         </div>
         <div class="card-footer text-muted">
-            <a class="btn btn-info" href="Details/@prod.Id">
+            <a class="btn btn-info" href="Details/@Prod.Id">
                 Se mere
                 <i class="fas fa-info-circle"></i>
             </a>
-            <a class="btn btn-success" href="" @onclick="() => MainLayout.AddToCart(prod.Id)">
+            <a class="btn btn-success" href="" @onclick="() => MainLayout.AddToCart(Prod.Id)">
                 Tilføj til kurv
                 <i class="fas fa-shopping-basket"></i>
             </a>
@@ -34,6 +34,6 @@
 
 @code
 {
-    [Parameter] public ProductDTO prod { get; set; }
+    [Parameter] public ProductDTO Prod { get; set; }
     [CascadingParameter] protected MainLayout MainLayout { get; set; }
 }

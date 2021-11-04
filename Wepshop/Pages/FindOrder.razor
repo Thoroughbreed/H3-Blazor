@@ -20,8 +20,8 @@ Type order ID: <input @bind-value="_order" @bind-value:event="oninput" @onkeyup=
         @foreach (var item in _orderResult.Items)
         {
             <tr>
-                <td>@_products.FirstOrDefault(p => p.Id == @item.product).Name</td>
-                <td>@($"{_products.FirstOrDefault(p => p.Id == @item.product).Price:C}")</td>
+                <td>@_products.FirstOrDefault(p => p.Id == @item.product)?.Name</td>
+                <td>@($"{_products.FirstOrDefault(p => p.Id.Equals(item.product)).Price:C}")</td>
                 <td>@item.amount</td>
                 <td>@($"{item.linePrice:C}")</td>
             </tr>
@@ -47,9 +47,9 @@ Type order ID: <input @bind-value="_order" @bind-value:event="oninput" @onkeyup=
     {
         if (_order.Length > 7)
         {
-            var _response = await _http.GetAsync($"/Shop/Orders?guid={_order}");
-            DebugMsg = _response.ToString();
-            if (_response.StatusCode == HttpStatusCode.OK)
+            var response = await _http.GetAsync($"/Shop/Orders?guid={_order}");
+            // DebugMsg = response.ToString();
+            if (response.StatusCode == HttpStatusCode.OK)
             {
                 // DebugMsg = await _response.Content.ReadAsStringAsync();
                 _orderResult = await _http.GetFromJsonAsync<OrderDTO>($"/Shop/Orders?guid={_order}");

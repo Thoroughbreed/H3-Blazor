@@ -90,7 +90,7 @@ using Wepshop.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 40 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/NavMenu.razor"
+#line 43 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/NavMenu.razor"
        
     private bool _collapseNavMenu = true;
     private string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
