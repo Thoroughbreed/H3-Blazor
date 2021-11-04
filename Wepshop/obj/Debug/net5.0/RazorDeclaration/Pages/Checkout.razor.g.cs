@@ -95,7 +95,7 @@ using Wepshop.Classes;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/Checkout")]
+    [Microsoft.AspNetCore.Components.RouteAttribute("/Checkout/{CustID:int?}")]
     public partial class Checkout : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -104,7 +104,7 @@ using Wepshop.Classes;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 36 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Checkout.razor"
+#line 44 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Checkout.razor"
        
     private CustomerDTO[] _custArr;
     private CustomerDTO _cust = new();

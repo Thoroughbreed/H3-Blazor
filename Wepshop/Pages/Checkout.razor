@@ -1,38 +1,45 @@
-@page "/Checkout"
+@page "/Checkout/{CustID:int?}"
 @using Microsoft.AspNetCore.Components
 @using Wepshop.Classes
 @inject HttpClient _http
 @inject NavigationManager _nav
 <p>@DebugMsg</p>
-<h3>Show me your creditcard!</h3>
-<EditForm EditContext="@EditContext" OnValidSubmit="@OnValidSubmit">
-    <DataAnnotationsValidator/>
-    <ValidationSummary/>
+@if (MainLayout.CartItems.Count() < 1)
+{
+    <h3>How the hell did you get here?! Your cart is empty dammit!</h3>
+    <p>Hurry, get to da <a href="FetchData">shoppa!</a></p>
+}
+else
+{
+    <h3>Show me your creditcard!</h3>
+    <EditForm EditContext="@EditContext" OnValidSubmit="@OnValidSubmit">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
 
-    <div class="form-group">
-        <label for="InputName">Name: </label>
-        <input type="text" @bind-value="_cust.name" class="form-control" id="InputName"/>
-    </div>
+        <div class="form-group">
+            <label for="InputName">Name: </label>
+            <input type="text" @bind-value="_cust.name" class="form-control" id="InputName"/>
+        </div>
 
-    <div class="form-group">
-        <label for="InputName">Address: </label>
-        <input type="text" @bind-value="_cust.address" class="form-control" id="InputName"/>
-    </div>
-    
+        <div class="form-group">
+            <label for="InputName">Address: </label>
+            <input type="text" @bind-value="_cust.address" class="form-control" id="InputName"/>
+        </div>
 
-    <div class="form-group">
-        <label for="InputName">Zip & City: </label>
-        <input type="text" @bind-value="_cust.city" class="form-control" id="InputName"/>
-    </div>
 
-    <div class="form-group">
-        <label for="InputName">E-Mail: </label>
-        <input type="email" @bind-value="_cust.eMail" class="form-control" id="InputName"/>
-    </div>
+        <div class="form-group">
+            <label for="InputName">Zip & City: </label>
+            <input type="text" @bind-value="_cust.city" class="form-control" id="InputName"/>
+        </div>
 
-    <button type="submit" class="btn btn-success">BUY!!!!</button>
-</EditForm>
-<button class="btn btn-success" @onclick="OnValidSubmit">Buy ... button?</button>
+        <div class="form-group">
+            <label for="InputName">E-Mail: </label>
+            <input type="email" @bind-value="_cust.eMail" class="form-control" id="InputName"/>
+        </div>
+
+        <button type="submit" class="btn btn-success">BUY!!!!</button>
+    </EditForm>
+}
 
 @code {
     private CustomerDTO[] _custArr;
