@@ -2,7 +2,6 @@
 @inject HttpClient _http
 @using Wepshop.Classes
 
-
 <h3>Details</h3>
 @if (_prod != null)
 {
@@ -27,7 +26,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-muted">
-                    <a class="btn btn-info" href="FetchData">
+                    <a class="btn btn-info" href="">
                         Tilbage
                         <i class="fas fa-info-circle"></i>
                     </a>
@@ -46,18 +45,15 @@ else
 }
 
 @code {
-
+    private ProductDTO _prod;
+    
     [Parameter]
     public int Id { get; set; }
     [CascadingParameter]
     MainLayout MainLayout { get; set; }
-
-    private ProductDTO _prod;
-
+    
     protected override async Task OnInitializedAsync()
     {
-        // _prod = await _http.GetFromJsonAsync<ProductDTO>($"https://192.168.236.142:5001/Shop/Products?search={Id}");
         _prod = await _http.GetFromJsonAsync<ProductDTO>($"/Shop/Products?search={Id}");
     }
-
 }

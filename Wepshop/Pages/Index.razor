@@ -1,127 +1,47 @@
 ﻿@page "/"
 @using Wepshop.Classes
 @inject HttpClient _http
-@inject IJSRuntime _js
 
-<h1>Heil Welt!</h1>
-Willkommen auf Das Spielplatz.
+<h1>El Niño Vegano Shoppo</h1>
+<input @bind-value="_param" @bind-value:event="oninput" @onkeyup="Search"/>
+<button class="btn btn-outline-success" @onclick="Search">Søg</button>
 <hr/>
-Indtast MAC-adr: <input @bind-value="_mac" @bind-value:event="oninput" @onkeyup="Mac"/>
-<p>Producenten bag den MAC er:</p>
-<table class="table table-striped">
-    @if (_macResult != null)
+@if (_products == null || _products.Count < 1)
+{
+    <h3>
+        <em>No products were found ...</em>
+    </h3>
+}
+else if (_products != null || _products.Count <= 1)
+{
+    <div class="card-deck">
+        @foreach (var prod in _products)
+        {
+            <ProductCard prod="@prod"></ProductCard>
+        }
+    </div>
+}
+
+@code {
+
+    private List<ProductDTO> _products;
+    private string _param;
+
+    [CascadingParameter]
+    protected MainLayout MainLayout { get; set; }
+
+    private void Search()
     {
-        @foreach (var item in _macResult)
-        {
-            <tr>
-                <td>@item.Company</td>
-                <td>@item.Type</td>
-                <td>@item.Country</td>
-            </tr>
-        }
-    }
-</table>
-<hr/>
-<input @bind="_city"/>
-<button class="btn btn-outline-success" @onclick="Weather">Søg</button>
-<p>Vejret for <span>@_city</span> er:</p>
-@if (_weatherResult == null)
-{
-    <p>Wtf?!</p>
-}
-else
-{
-    <table class="table table-striped">
-        <tr>
-            <th>Day: </th>
-            <th>@_weatherResult.temperature</th>
-            <th>@_weatherResult.description</th>
-            <th>@_weatherResult.wind</th>
-        </tr>
-        @foreach (var fore in _weatherResult.forecast)
-        {
-            <tr>
-                <td>@fore.day</td>
-                <td>@fore.temperature</td>
-                <td></td>
-                <td>@fore.wind</td>
-            </tr>
-        }
-    </table>
-}
-<hr/>
-<input @bind-value="_road" @bind-value:event="oninput" @onkeyup="Adresse"/>
-<button class="btn btn-outline-success" @onclick="Adresse">Søg</button>
-@if (_adresseResult == null)
-{
-    <p>Wtf?!</p>
-}
-else
-{
-    <table class="table table-striped">
-        @if (int.TryParse(_road, out _integer))
-        {
-            <tr>
-                <td>@_adresseResult[0].data.postnrnavn</td>
-            </tr>
-        }
-        else
-        {
-            @foreach (var item in _adresseResult)
-            {
-                <tr>
-                    <td>@item.tekst</td>
-                </tr>
-            }
-        }
-    </table>
-}
-
-
-
-
-@code
-{
-    private int _integer;
-    private string _city;
-    private string _road;
-    private string _mac;
-    private List<Mac> _macResult;
-    private Weather _weatherResult;
-    private List<Adresse> _adresseResult;
-
-    private async Task Mac()
-    {
-        try
-        {
-            _macResult = await _http.GetFromJsonAsync<List<Mac>>($"https://www.macvendorlookup.com/api/v2/{_mac}");
-        }
-        catch (Exception)
-        {
-        }
+        _products = MainLayout.Products
+            .Where(p => p.Name.ToLower().Contains(_param.ToLower())
+                        || p.Vendor.ToLower().Contains(_param.ToLower())
+                        || p.Category.ToLower().Contains(_param.ToLower()))
+            .ToList();
     }
 
-    private async Task Weather()
+    protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            _weatherResult = await _http.GetFromJsonAsync<Weather>($"https://goweather.herokuapp.com/weather/{_city}");
-        }
-        catch (Exception)
-        {
-            _weatherResult = null;
-        }
-    }
-
-    private async Task Adresse()
-    {
-        try
-        {
-            _adresseResult = await _http.GetFromJsonAsync<List<Adresse>>($"https://api.dataforsyningen.dk/autocomplete?q={_road}");
-        }
-        catch (Exception)
-        {
-            _adresseResult = null;
-        }
+        _products = await _http.GetFromJsonAsync<List<ProductDTO>>($"/Shop/Products?search={_param}");
+        MainLayout.Products = _products;
     }
 }

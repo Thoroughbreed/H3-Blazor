@@ -112,7 +112,8 @@ using System.Net;
     private string DebugMsg { get; set; }
     private List<ProductDTO> _products { get; set; }
     
-    [CascadingParameter] protected MainLayout MainLayout { get; set; }
+    [CascadingParameter]
+    protected MainLayout MainLayout { get; set; }
     
     protected override async Task OnInitializedAsync()
     {
@@ -123,14 +124,11 @@ using System.Net;
     {
         if (_order.Length > 7)
         {
-            // var _response = await _http.GetAsync($"https://192.168.236.142:5001/Shop/Orders?guid={_order}");
             var _response = await _http.GetAsync($"/Shop/Orders?guid={_order}");
             DebugMsg = _response.ToString();
             if (_response.StatusCode == HttpStatusCode.OK)
             {
-                DebugMsg = await _response.Content.ReadAsStringAsync();
-                // _orderResult = JsonSerializer.Deserialize<OrderDTO>(ErrorMsg);
-                // _orderResult = await _http.GetFromJsonAsync<OrderDTO>($"https://192.168.236.142:5001/Shop/Orders?guid={_order}");
+                // DebugMsg = await _response.Content.ReadAsStringAsync();
                 _orderResult = await _http.GetFromJsonAsync<OrderDTO>($"/Shop/Orders?guid={_order}");
             }
             else

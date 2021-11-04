@@ -1,12 +1,10 @@
 @using Wepshop.Classes
-@using Wepshop.Pages
 @inherits LayoutComponentBase
 
 <div class="page">
     <div class="sidebar">
         <NavMenu/>
     </div>
-
     <div class="main">
         <div class="top-row px-4">
             <a href="cart" class="ml-md-auto @_colour">
@@ -28,8 +26,7 @@
     public List<ProductDTO> Products { get; set; } = new List<ProductDTO>();
     private int CartAmount { get; set; } = 0;
     private string _colour { get; set; } = "btn btn-warning";
-
-
+    
     public void AddToCart(int id)
     {
         if (CartItems.FirstOrDefault(c => c._ProductID == id) != null)

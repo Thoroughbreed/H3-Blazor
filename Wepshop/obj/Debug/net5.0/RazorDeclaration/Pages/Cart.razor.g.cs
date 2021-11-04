@@ -103,8 +103,6 @@ using Wepshop.Classes;
     private List<OrderItemsDTO> ShoppingCart { get; } = new List<OrderItemsDTO>();
     public OrderDTO Order { get; set; }
     public CustomerDTO Customer { get; set; }
-
-
     private List<CartOrderItems> CartOrderItems { get; set; }
 
     [CascadingParameter]

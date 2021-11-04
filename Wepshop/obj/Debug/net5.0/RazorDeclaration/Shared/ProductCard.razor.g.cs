@@ -97,10 +97,10 @@ using Wepshop.Classes;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 35 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/ProductCard.razor"
+#line 36 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/ProductCard.razor"
  
     [Parameter] public ProductDTO prod { get; set; }
-    [CascadingParameter] MainLayout MainLayout { get; set; }
+    [CascadingParameter] protected MainLayout MainLayout { get; set; }
 
 #line default
 #line hidden

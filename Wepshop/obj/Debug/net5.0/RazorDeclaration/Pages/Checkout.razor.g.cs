@@ -115,13 +115,11 @@ using Wepshop.Classes;
 
     [CascadingParameter]
     protected MainLayout MainLayout { get; set; }
-
     [Parameter]
     public int CustID { get; set; } = 8; // Hardcoded test value
 
     protected override async Task OnInitializedAsync()
     {
-        // _custArr = await _http.GetFromJsonAsync<CustomerDTO[]>($"https://192.168.236.142:5001/Shop/Customers?search=api");
         _custArr = await _http.GetFromJsonAsync<CustomerDTO[]>($"/Shop/Customers?search=api");
         await base.OnInitializedAsync();
         _cust = _custArr[0];
@@ -150,8 +148,6 @@ using Wepshop.Classes;
         {
             _cust.orders++;
         }
-        // await _http.PutAsJsonAsync<CustomerDTO>("https://192.168.236.142:5001/Shop/Customers", _cust);
-        // var response = await _http.PostAsJsonAsync<OrderDTO[]>("https://192.168.236.142:5001/Shop/Orders", _orders);
         await _http.PutAsJsonAsync<CustomerDTO>("/Shop/Customers", _cust);
         var response = await _http.PostAsJsonAsync<OrderDTO[]>("/Shop/Orders", _orders);
 
@@ -161,7 +157,6 @@ using Wepshop.Classes;
             _nav.NavigateTo($"Success/{await response.Content.ReadAsStringAsync()}");
         }
     }
-
 
 #line default
 #line hidden

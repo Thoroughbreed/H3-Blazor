@@ -98,55 +98,33 @@ using Wepshop.Classes;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 84 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Index.razor"
- 
-    private int _integer;
-    private string _city;
-    private string _road;
-    private string _mac;
-    private List<Mac> _macResult;
-    private Weather _weatherResult;
-    private List<Adresse> _adresseResult;
+#line 25 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Index.razor"
+       
 
-    private async Task Mac()
+    private List<ProductDTO> _products;
+    private string _param;
+
+    [CascadingParameter]
+    protected MainLayout MainLayout { get; set; }
+
+    private void Search()
     {
-        try
-        {
-            _macResult = await _http.GetFromJsonAsync<List<Mac>>($"https://www.macvendorlookup.com/api/v2/{_mac}");
-        }
-        catch (Exception)
-        {
-        }
+        _products = MainLayout.Products
+            .Where(p => p.Name.ToLower().Contains(_param.ToLower())
+                        || p.Vendor.ToLower().Contains(_param.ToLower())
+                        || p.Category.ToLower().Contains(_param.ToLower()))
+            .ToList();
     }
 
-    private async Task Weather()
+    protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            _weatherResult = await _http.GetFromJsonAsync<Weather>($"https://goweather.herokuapp.com/weather/{_city}");
-        }
-        catch (Exception)
-        {
-            _weatherResult = null;
-        }
-    }
-
-    private async Task Adresse()
-    {
-        try
-        {
-            _adresseResult = await _http.GetFromJsonAsync<List<Adresse>>($"https://api.dataforsyningen.dk/autocomplete?q={_road}");
-        }
-        catch (Exception)
-        {
-            _adresseResult = null;
-        }
+        _products = await _http.GetFromJsonAsync<List<ProductDTO>>($"/Shop/Products?search={_param}");
+        MainLayout.Products = _products;
     }
 
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime _js { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private HttpClient _http { get; set; }
     }
 }

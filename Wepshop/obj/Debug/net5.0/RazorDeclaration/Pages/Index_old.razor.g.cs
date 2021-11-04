@@ -83,14 +83,14 @@ using Wepshop.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/FetchData.razor"
+#line 2 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Index_old.razor"
 using Wepshop.Classes;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/fetchdata")]
-    public partial class FetchData : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/deprecated")]
+    public partial class Index_old : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -98,35 +98,55 @@ using Wepshop.Classes;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 25 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/FetchData.razor"
-       
+#line 81 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Index_old.razor"
+ 
+    private int _integer;
+    private string _city;
+    private string _road;
+    private string _mac;
+    private List<Mac> _macResult;
+    private Weather _weatherResult;
+    private List<Adresse> _adresseResult;
 
-    private List<ProductDTO> _products;
-    private string _param;
-
-    [CascadingParameter]
-    protected MainLayout MainLayout { get; set; }
-
-    private void Search()
+    private async Task Mac()
     {
-        _products = MainLayout.Products
-            .Where(p => p.Name.ToLower().Contains(_param.ToLower())
-                        || p.Vendor.ToLower().Contains(_param.ToLower())
-                        || p.Category.ToLower().Contains(_param.ToLower()))
-            .ToList();
+        try
+        {
+            _macResult = await _http.GetFromJsonAsync<List<Mac>>($"https://www.macvendorlookup.com/api/v2/{_mac}");
+        }
+        catch (Exception)
+        {
+        }
     }
 
-    protected override async Task OnInitializedAsync()
+    private async Task Weather()
     {
-        // _products = await _http.GetFromJsonAsync<List<ProductDTO>>($"https://192.168.236.142:5001/Shop/Products?search={_param}");
-        _products = await _http.GetFromJsonAsync<List<ProductDTO>>($"/Shop/Products?search={_param}");
-        MainLayout.Products = _products;
+        try
+        {
+            _weatherResult = await _http.GetFromJsonAsync<Weather>($"https://goweather.herokuapp.com/weather/{_city}");
+        }
+        catch (Exception)
+        {
+            _weatherResult = null;
+        }
     }
 
+    private async Task Adresse()
+    {
+        try
+        {
+            _adresseResult = await _http.GetFromJsonAsync<List<Adresse>>($"https://api.dataforsyningen.dk/autocomplete?q={_road}");
+        }
+        catch (Exception)
+        {
+            _adresseResult = null;
+        }
+    }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime _js { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private HttpClient _http { get; set; }
     }
 }

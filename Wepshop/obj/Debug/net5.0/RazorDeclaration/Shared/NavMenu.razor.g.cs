@@ -93,14 +93,12 @@ using Wepshop.Shared;
 #line 40 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/NavMenu.razor"
        
     private bool _collapseNavMenu = true;
-
     private string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
     {
         _collapseNavMenu = !_collapseNavMenu;
     }
-
 
 #line default
 #line hidden

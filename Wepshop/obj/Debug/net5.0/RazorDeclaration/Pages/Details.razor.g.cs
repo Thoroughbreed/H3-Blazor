@@ -98,22 +98,19 @@ using Wepshop.Classes;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 48 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Details.razor"
+#line 47 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Details.razor"
        
-
+    private ProductDTO _prod;
+    
     [Parameter]
     public int Id { get; set; }
     [CascadingParameter]
     MainLayout MainLayout { get; set; }
-
-    private ProductDTO _prod;
-
+    
     protected override async Task OnInitializedAsync()
     {
-        // _prod = await _http.GetFromJsonAsync<ProductDTO>($"https://192.168.236.142:5001/Shop/Products?search={Id}");
         _prod = await _http.GetFromJsonAsync<ProductDTO>($"/Shop/Products?search={Id}");
     }
-
 
 #line default
 #line hidden

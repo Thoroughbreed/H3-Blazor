@@ -89,13 +89,6 @@ using Wepshop.Classes;
 #line default
 #line hidden
 #nullable disable
-#nullable restore
-#line 2 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/MainLayout.razor"
-using Wepshop.Pages;
-
-#line default
-#line hidden
-#nullable disable
     public partial class MainLayout : LayoutComponentBase
     {
         #pragma warning disable 1998
@@ -104,14 +97,13 @@ using Wepshop.Pages;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 26 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/MainLayout.razor"
+#line 24 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/MainLayout.razor"
  
     public List<CartOrderItems> CartItems { get; set; } = new List<CartOrderItems>();
     public List<ProductDTO> Products { get; set; } = new List<ProductDTO>();
     private int CartAmount { get; set; } = 0;
     private string _colour { get; set; } = "btn btn-warning";
-
-
+    
     public void AddToCart(int id)
     {
         if (CartItems.FirstOrDefault(c => c._ProductID == id) != null)

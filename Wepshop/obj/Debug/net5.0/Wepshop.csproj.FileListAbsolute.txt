@@ -405,7 +405,6 @@
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Wepshop.RazorComponent.input.cache
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/RazorDeclaration/App.razor.g.cs
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/RazorDeclaration/Pages/Counter.razor.g.cs
-/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/RazorDeclaration/Pages/FetchData.razor.g.cs
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/RazorDeclaration/Pages/Index.razor.g.cs
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/RazorDeclaration/_Imports.razor.g.cs
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/RazorDeclaration/Shared/MainLayout.razor.g.cs
@@ -417,7 +416,6 @@
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Wepshop.RazorCoreGenerate.cache
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Razor/App.razor.g.cs
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Razor/Pages/Counter.razor.g.cs
-/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Razor/Pages/FetchData.razor.g.cs
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Razor/Pages/Index.razor.g.cs
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Razor/_Imports.razor.g.cs
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Razor/Shared/MainLayout.razor.g.cs
@@ -639,3 +637,5 @@
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/RazorDeclaration/Pages/Success.razor.g.cs
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Razor/Pages/FindOrder.razor.g.cs
 /Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Razor/Pages/Success.razor.g.cs
+/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/RazorDeclaration/Pages/Index_old.razor.g.cs
+/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/obj/Debug/net5.0/Razor/Pages/Index_old.razor.g.cs

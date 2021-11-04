@@ -82,20 +82,6 @@ using Wepshop.Shared;
 #line default
 #line hidden
 #nullable disable
-#nullable restore
-#line 2 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Counter.razor"
-using System.Xml;
-
-#line default
-#line hidden
-#nullable disable
-#nullable restore
-#line 3 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Counter.razor"
-using Wepshop.Classes;
-
-#line default
-#line hidden
-#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/counter")]
     public partial class Counter : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -105,7 +91,7 @@ using Wepshop.Classes;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 17 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Counter.razor"
+#line 15 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Counter.razor"
        
     private string _calculateResult;
     private string _inputA;

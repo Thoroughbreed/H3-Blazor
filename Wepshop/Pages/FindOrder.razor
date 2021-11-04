@@ -6,7 +6,7 @@
 <h3>Search for order</h3>
 Type order ID: <input @bind-value="_order" @bind-value:event="oninput" @onkeyup="Search"/>
 
-@* <p>@DebugMsg</p> *@
+<p>@DebugMsg</p>
 @if (_orderResult != null)
 {
     <p>Welcome back @_orderResult.Customer.name! Your order details are:</p>
@@ -35,7 +35,8 @@ Type order ID: <input @bind-value="_order" @bind-value:event="oninput" @onkeyup=
     private string DebugMsg { get; set; }
     private List<ProductDTO> _products { get; set; }
     
-    [CascadingParameter] protected MainLayout MainLayout { get; set; }
+    [CascadingParameter]
+    protected MainLayout MainLayout { get; set; }
     
     protected override async Task OnInitializedAsync()
     {
@@ -46,14 +47,11 @@ Type order ID: <input @bind-value="_order" @bind-value:event="oninput" @onkeyup=
     {
         if (_order.Length > 7)
         {
-            // var _response = await _http.GetAsync($"https://192.168.236.142:5001/Shop/Orders?guid={_order}");
             var _response = await _http.GetAsync($"/Shop/Orders?guid={_order}");
             DebugMsg = _response.ToString();
             if (_response.StatusCode == HttpStatusCode.OK)
             {
-                DebugMsg = await _response.Content.ReadAsStringAsync();
-                // _orderResult = JsonSerializer.Deserialize<OrderDTO>(ErrorMsg);
-                // _orderResult = await _http.GetFromJsonAsync<OrderDTO>($"https://192.168.236.142:5001/Shop/Orders?guid={_order}");
+                // DebugMsg = await _response.Content.ReadAsStringAsync();
                 _orderResult = await _http.GetFromJsonAsync<OrderDTO>($"/Shop/Orders?guid={_order}");
             }
             else
