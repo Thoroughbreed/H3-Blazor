@@ -37,7 +37,7 @@ SPA without adding anything out of the box. To avoid using
 cookies/local storage, the cart is saved in a variable. This however
 means that the cart will be emptied on a full reload of the page,
 which is not the best way to do it. I got stubborn however and decided
-~~~~to avoid any extras - even if this resulted in ugly coding.
+to avoid any extras - even if this resulted in ugly coding.
 
 ## Installed libraries
 NuGet packs: *none*
