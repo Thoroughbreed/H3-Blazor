@@ -116,12 +116,12 @@
     {
         _item = p;
         _hideNseek = "show";
-        _timer.Elapsed += OnTimedEvent;
+        _timer.Elapsed += OnTimer;
         _timer.Enabled = true;
     }
     
     // When the timer lapses, the class variable is set to not-show (or any other thing other than show) and the timer stops
-    private void OnTimedEvent(object source, ElapsedEventArgs e)
+    private void OnTimer(object source, ElapsedEventArgs e)
     {
         _hideNseek = "I TOLD YOU SO!";
         StateHasChanged();
