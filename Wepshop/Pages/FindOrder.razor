@@ -26,6 +26,12 @@ Type order ID: <input @bind-value="_order" @bind-value:event="oninput" @onkeyup=
                 <td>@($"{item.linePrice:C}")</td>
             </tr>
         }
+        <tfoot>
+        <th></th>
+        <th></th>
+        <th class="text-right">Total:</th>
+        <th>@($"{_orderResult.Items.Sum(a => a.linePrice):C}")</th>
+        </tfoot>
     </table>
 }
 

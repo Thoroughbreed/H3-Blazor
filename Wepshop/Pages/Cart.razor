@@ -28,6 +28,12 @@
                 </td>
             </tr>
         }
+        <tfoot>
+        <th></th>
+        <th></th>
+        <th class="text-right">Total:</th>
+        <th>@($"{MainLayout.CartItems.Sum(a => a._LinePrice):C}")</th>
+        </tfoot>
     </table>
     <a href="Cart" @onclick="MainLayout.ClearBasket" class="btn btn-danger">Empty basket ...</a>
     <a href="Checkout" class="btn btn-success">Checkout!</a>

@@ -106,16 +106,17 @@ using System.Timers;
 #nullable restore
 #line 26 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Shared/MainLayout.razor"
  
-    public List<CartOrderItems> CartItems { get; set; } = new List<CartOrderItems>();
-    public List<ProductDTO> Products { get; set; } = new List<ProductDTO>();
+    public List<CartOrderItems> CartItems { get; set; } = new();
+    public List<ProductDTO> Products { get; set; } = new();
     private int CartAmount { get; set; }
-    private Timer _timer { get; set; } = new Timer(3000);
+    private Timer _timer { get; } = new(3000); // Time the toaster is visible
     
     // Styling ish fields. 
     // _colour sets the background colour of the basket icon in upper right corner
     // _hideNseek is controlling the class of the toaster DIV and _item is the current item in the toaster
-    private string _hideNseek { get; set; } = "";
-    private string _item { get; set; } = "Defaulting to default value";
+    private string _hideNseek { get; set; } = ""; // class for the toaster is blank until the method is called
+    private string _item { get; set; } = "Defaulting to default value"; // if no text is sent to the toaster
+    private string _msg { get; set; } = "er tilføjet til kurven :)"; // default value
     private string _colour { get; set; } = "btn btn-warning";
     
     public void AddToCart(int id)
@@ -192,7 +193,7 @@ using System.Timers;
         _colour = "btn btn-warning";
     }
     
-    
+    // Parameter p is the product name (or other string) that the toaster is supposed to show
     private void ShopPop(string p)
     {
         _item = p;
@@ -201,7 +202,8 @@ using System.Timers;
         _timer.Enabled = true;
     }
     
-    private void OnTimedEvent(Object source, ElapsedEventArgs e)
+    // When the timer lapses, the class variable is set to not-show (or any other thing other than show) and the timer stops
+    private void OnTimedEvent(object source, ElapsedEventArgs e)
     {
         _hideNseek = "I TOLD YOU SO!";
         StateHasChanged();

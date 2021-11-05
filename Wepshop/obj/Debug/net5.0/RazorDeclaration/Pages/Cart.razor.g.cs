@@ -91,13 +91,8 @@ using Wepshop.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 40 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Cart.razor"
+#line 46 "/Users/janandreasen/RiderProjects/BlazorWebshop/Wepshop/Pages/Cart.razor"
        
-    // private List<OrderItemsDTO> ShoppingCart { get; } = new List<OrderItemsDTO>();
-    // public OrderDTO Order { get; set; }
-    // public CustomerDTO Customer { get; set; }
-    // private List<CartOrderItems> CartOrderItems { get; set; }
-
     [CascadingParameter]
     protected MainLayout MainLayout { get; set; }
 
